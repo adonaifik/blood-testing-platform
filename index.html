@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLOOD TESTING - Interactive Platform</title>
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+<body>
+    <div class="dynamic-background">
+        <div class="floating-cells"></div>
+        <div class="pulse-animation"></div>
+    </div>
+    
+    <div class="container">
+        <header class="dashboard-header">
+            <div class="header-content">
+                <h1 class="main-title">BLOOD TESTING</h1>
+                <p class="subtitle">Interactive Testing System</p>
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalTests">0</div>
+                        <div class="stat-label">Tests Completed</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <nav class="nav-menu">
+            <ul>
+                <li><a href="#dashboard" class="active">Dashboard</a></li>
+                <li><a href="#quiz-testing">Quiz Testing</a></li>
+                <li><a href="#registration">Registration</a></li>
+                <li><a href="#test-results">Test Results</a></li>
+                <li><a href="#analytics">Analytics</a></li>
+            </ul>
+        </nav>
+
+        <main>
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="section active">
+                <h2>Testing Dashboard</h2>
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <h3>Quick Actions</h3>
+                        <div class="quick-actions">
+                            <button class="action-btn" onclick="startNewQuiz()">
+                                <span class="icon">🔬</span>
+                                Start Blood Type Test
+                            </button>
+                            <button class="action-btn" onclick="openRegistration()">
+                                <span class="icon">📝</span>
+                                Registration
+                            </button>
+                            <button class="action-btn" onclick="viewResults()">
+                                <span class="icon">📊</span>
+                                View Results
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <h3>Recent Activity</h3>
+                        <div id="recentActivity" class="activity-list">
+                            <div class="activity-item">
+                                <span class="activity-time">Just now</span>
+                                <span class="activity-text">System initialized</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <h3>Quiz Statistics</h3>
+                        <div class="quiz-stats">
+                            <div class="quiz-stat">
+                                <span class="stat-label">Average Score:</span>
+                                <span class="stat-value" id="avgScore">0%</span>
+                            </div>
+                            <div class="quiz-stat">
+                                <span class="stat-label">Completion Rate:</span>
+                                <span class="stat-value" id="completionRate">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz Testing Section -->
+            <section id="quiz-testing" class="section">
+                <h2>Interactive Blood Testing Quiz</h2>
+                
+                <!-- Quiz Selection -->
+                <div class="quiz-selection" id="quizSelection">
+                    <h3>Discover Your Blood Type Through Personality</h3>
+                    <p class="quiz-description">Answer questions about your personality, lifestyle, and preferences to determine your most likely blood type based on scientific correlations.</p>
+                    <div class="quiz-types">
+                        <div class="quiz-type-card primary" onclick="startBloodTypeDetermination()">
+                            <div class="quiz-icon">🔬</div>
+                            <h4>Blood Type Determination</h4>
+                            <p>Take our comprehensive personality-based test to discover your most likely blood type</p>
+                            <span class="quiz-count">12 Questions</span>
+                        </div>
+                        
+                        <div class="quiz-type-card" onclick="startGeneralQuiz()">
+                            <div class="quiz-icon">🧪</div>
+                            <h4>General Blood Knowledge</h4>
+                            <p>Test your knowledge of blood components, ranges, and general testing</p>
+                            <span class="quiz-count">10 Questions</span>
+                        </div>
+                        
+                        <div class="quiz-type-card" onclick="startCompatibilityQuiz()">
+                            <div class="quiz-icon">💉</div>
+                            <h4>Blood Compatibility</h4>
+                            <p>Learn about blood type compatibility and transfusion rules</p>
+                            <span class="quiz-count">Reference Table</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quiz Container -->
+                <div class="quiz-container" id="quizContainer" style="display: none;">
+                    <div class="quiz-header">
+                        <div class="quiz-title">
+                            <h3 id="quizTitle">Blood Testing Quiz</h3>
+                            <span id="quizType" class="quiz-type-badge">General</span>
+                        </div>
+                        <div class="quiz-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="quizProgress"></div>
+                            </div>
+                            <span class="progress-text" id="progressText">Question 1 of 10</span>
+                        </div>
+                        <div class="quiz-score">
+                            <span>Score: <span id="currentScore">0</span>/100</span>
+                        </div>
+                    </div>
+                    
+                    <div class="quiz-content">
+                        <div id="quizQuestion" class="quiz-question">
+                            <h3 id="questionText">Loading quiz...</h3>
+                            <div id="questionOptions" class="quiz-options">
+                                <!-- Options will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <div class="quiz-controls">
+                            <button id="prevBtn" class="btn btn-secondary" onclick="previousQuestion()" disabled>Previous</button>
+                            <button id="nextBtn" class="btn btn-primary" onclick="nextQuestion()" disabled>Next</button>
+                            <button id="submitBtn" class="btn btn-success" onclick="submitQuiz()" style="display: none;">Submit Quiz</button>
+                            <button id="backToSelection" class="btn btn-secondary" onclick="backToQuizSelection()">Back to Quiz Types</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Registration Section -->
+            <section id="registration" class="section">
+                <h2>REGISTRATION</h2>
+                <form id="testTakerForm" class="form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="testTakerId">Test Taker ID:</label>
+                            <input type="text" id="testTakerId" name="testTakerId" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="firstName">First Name:</label>
+                            <input type="text" id="firstName" name="firstName" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="lastName">Last Name:</label>
+                            <input type="text" id="lastName" name="lastName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="dateOfBirth">Date of Birth:</label>
+                            <input type="date" id="dateOfBirth" name="dateOfBirth" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="gender">Gender:</label>
+                            <select id="gender" name="gender" required>
+                                <option value="">Select Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number:</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Register Test Taker</button>
+                </form>
+            </section>
+
+            <!-- Test Results Section -->
+            <section id="test-results" class="section">
+                <h2>Test Results & Analysis</h2>
+                <div class="search-section">
+                    <div class="form-group">
+                        <label for="searchTestTakerId">Search by Test Taker ID:</label>
+                        <input type="text" id="searchTestTakerId" placeholder="Enter Test Taker ID">
+                        <button type="button" id="searchBtn" class="btn btn-secondary">Search</button>
+                    </div>
+                </div>
+                
+                <div id="resultsDisplay" class="results-display">
+                    <div class="welcome-message">
+                        <h3>Welcome to Results Analysis</h3>
+                        <p>Enter a Test Taker ID to view their test results and quiz performance.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analytics Section -->
+            <section id="analytics" class="section">
+                <h2>Laboratory Analytics</h2>
+                <div class="analytics-grid">
+                    <div class="analytics-card">
+                        <h3>Quiz Performance Trends</h3>
+                        <div class="chart-container">
+                            <canvas id="performanceChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="analytics-card">
+                        <h3>Test Distribution</h3>
+                        <div class="chart-container">
+                            <canvas id="distributionChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="analytics-card">
+                        <h3>Test Taker Demographics</h3>
+                        <div class="demographics">
+                            <div class="demo-item">
+                                <span class="demo-label">Male:</span>
+                                <span class="demo-value" id="maleCount">0</span>
+                            </div>
+                            <div class="demo-item">
+                                <span class="demo-label">Female:</span>
+                                <span class="demo-value" id="femaleCount">0</span>
+                            </div>
+                            <div class="demo-item">
+                                <span class="demo-label">Other:</span>
+                                <span class="demo-value" id="otherCount">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 BLOOD TESTING - Interactive Laboratory Management System. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="static/app.js"></script>
+</body>
+</html>
