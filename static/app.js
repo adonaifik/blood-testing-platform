@@ -853,10 +853,12 @@ function displayBloodTypeResult(result) {
     // Show feedback popup after a short delay
     setTimeout(() => {
         showFeedbackPopup(result.type, result.confidence);
-    }, 1000);
+    }, 1500);
 }
 
 function showFeedbackPopup(predictedBloodType, confidence) {
+    console.log('Showing feedback popup for:', predictedBloodType, 'with confidence:', confidence);
+    
     // Create feedback popup
     const feedbackPopup = document.createElement('div');
     feedbackPopup.className = 'feedback-popup-overlay';
@@ -884,15 +886,18 @@ function showFeedbackPopup(predictedBloodType, confidence) {
     `;
     
     document.body.appendChild(feedbackPopup);
+    console.log('Feedback popup added to DOM');
 }
 
 function handleFeedbackResponse(isCorrect, predictedBloodType) {
+    console.log('Handling feedback response:', isCorrect, predictedBloodType);
+    
     // Store feedback data
     const feedback = {
         timestamp: new Date().toISOString(),
         predictedBloodType: predictedBloodType,
         isCorrect: isCorrect,
-        userAnswers: [...selectedAnswers], // Store the user's quiz answers
+        userAnswers: {...selectedAnswers}, // Store the user's quiz answers
         actualBloodType: null // Will be filled if incorrect
     };
     
@@ -1050,70 +1055,94 @@ function strengthenWeights(bloodType, userAnswers) {
     // Increase weights for the blood type based on user answers
     const baseType = bloodType.replace(/[+-]/, ''); // Remove Rh factor for base type
     
-    userAnswers.forEach((answer, questionIndex) => {
-        if (answer && answer.bloodTypeWeights) {
-            const weight = answer.bloodTypeWeights[baseType] || 0;
-            if (weight > 0) {
-                algorithmWeights[baseType].personality += learningRate * weight;
-                algorithmWeights[baseType].lifestyle += learningRate * weight;
-                algorithmWeights[baseType].preferences += learningRate * weight;
-            }
-        }
-    });
+    console.log('Strengthening weights for:', baseType, 'with answers:', userAnswers);
+    
+    // Apply learning to algorithm weights
+    algorithmWeights[baseType].personality += learningRate * 0.1;
+    algorithmWeights[baseType].lifestyle += learningRate * 0.1;
+    algorithmWeights[baseType].preferences += learningRate * 0.1;
+    
+    console.log('Updated weights for', baseType, ':', algorithmWeights[baseType]);
 }
 
 function weakenWeights(bloodType, userAnswers) {
     // Decrease weights for the blood type based on user answers
     const baseType = bloodType.replace(/[+-]/, ''); // Remove Rh factor for base type
     
-    userAnswers.forEach((answer, questionIndex) => {
-        if (answer && answer.bloodTypeWeights) {
-            const weight = answer.bloodTypeWeights[baseType] || 0;
-            if (weight > 0) {
-                algorithmWeights[baseType].personality -= learningRate * weight * 0.5;
-                algorithmWeights[baseType].lifestyle -= learningRate * weight * 0.5;
-                algorithmWeights[baseType].preferences -= learningRate * weight * 0.5;
-                
-                // Ensure weights don't go below 0.1
-                algorithmWeights[baseType].personality = Math.max(0.1, algorithmWeights[baseType].personality);
-                algorithmWeights[baseType].lifestyle = Math.max(0.1, algorithmWeights[baseType].lifestyle);
-                algorithmWeights[baseType].preferences = Math.max(0.1, algorithmWeights[baseType].preferences);
-            }
-        }
-    });
+    console.log('Weakening weights for:', baseType, 'with answers:', userAnswers);
+    
+    // Apply learning to algorithm weights
+    algorithmWeights[baseType].personality -= learningRate * 0.05;
+    algorithmWeights[baseType].lifestyle -= learningRate * 0.05;
+    algorithmWeights[baseType].preferences -= learningRate * 0.05;
+    
+    // Ensure weights don't go below 0.1
+    algorithmWeights[baseType].personality = Math.max(0.1, algorithmWeights[baseType].personality);
+    algorithmWeights[baseType].lifestyle = Math.max(0.1, algorithmWeights[baseType].lifestyle);
+    algorithmWeights[baseType].preferences = Math.max(0.1, algorithmWeights[baseType].preferences);
+    
+    console.log('Updated weights for', baseType, ':', algorithmWeights[baseType]);
 }
 
 // Enhanced blood type calculation with learned weights
 function calculateBloodTypeWithLearning() {
     const scores = { A: 0, B: 0, AB: 0, O: 0 };
     
-    // Apply learned weights to the calculation
-    Object.keys(selectedAnswers).forEach(questionIndex => {
-        const answer = selectedAnswers[questionIndex];
-        if (answer && answer.bloodTypeWeights) {
-            Object.keys(scores).forEach(bloodType => {
-                const baseWeight = answer.bloodTypeWeights[bloodType] || 0;
-                const learnedWeight = algorithmWeights[bloodType].personality * 
-                                   algorithmWeights[bloodType].lifestyle * 
-                                   algorithmWeights[bloodType].preferences;
-                
-                scores[bloodType] += baseWeight * learnedWeight;
-            });
+    console.log('Starting blood type calculation with selectedAnswers:', selectedAnswers);
+    console.log('Current algorithm weights:', algorithmWeights);
+    
+    // Calculate scores based on selected answers
+    currentQuiz.forEach((question, index) => {
+        const selectedAnswer = selectedAnswers[index];
+        console.log(`Question ${index + 1}: Selected answer ${selectedAnswer}`);
+        
+        if (selectedAnswer !== undefined && question.bloodTypeWeights) {
+            const weights = question.bloodTypeWeights[selectedAnswer];
+            console.log(`Question ${index + 1} weights:`, weights);
+            
+            if (weights) {
+                // Apply learned weights to the base weights
+                Object.keys(scores).forEach(bloodType => {
+                    const baseWeight = weights[bloodType] || 0;
+                    const learnedWeight = algorithmWeights[bloodType].personality * 
+                                       algorithmWeights[bloodType].lifestyle * 
+                                       algorithmWeights[bloodType].preferences;
+                    
+                    scores[bloodType] += baseWeight * learnedWeight;
+                });
+            }
         }
     });
     
+    console.log('Final scores with learning:', scores);
+    
     // Find the blood type with highest score
-    const maxScore = Math.max(...Object.values(scores));
-    const predictedType = Object.keys(scores).find(type => scores[type] === maxScore);
+    let maxScore = 0;
+    let predictedType = 'A'; // Default fallback
+    
+    Object.keys(scores).forEach(type => {
+        if (scores[type] > maxScore) {
+            maxScore = scores[type];
+            predictedType = type;
+        }
+    });
     
     // Calculate confidence based on score difference
     const sortedScores = Object.values(scores).sort((a, b) => b - a);
-    const confidence = Math.round(((sortedScores[0] - sortedScores[1]) / sortedScores[0]) * 100);
+    let confidence = 60; // Default confidence
+    
+    if (sortedScores[0] > 0 && sortedScores[1] !== undefined) {
+        const scoreDifference = sortedScores[0] - sortedScores[1];
+        confidence = Math.round((scoreDifference / sortedScores[0]) * 100);
+        confidence = Math.max(confidence, 60); // Minimum 60% confidence
+    }
+    
+    console.log(`Predicted type: ${predictedType}, Confidence: ${confidence}%`);
     
     return {
         type: predictedType,
         scores: scores,
-        confidence: Math.max(confidence, 60) // Minimum 60% confidence
+        confidence: confidence
     };
 }
 
