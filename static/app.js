@@ -9,6 +9,16 @@ let testTakers = [];
 let tests = [];
 let results = [];
 
+// Feedback data storage and algorithm learning
+let feedbackData = JSON.parse(localStorage.getItem('bloodTypeFeedback') || '[]');
+let algorithmWeights = JSON.parse(localStorage.getItem('algorithmWeights') || JSON.stringify({
+    A: { personality: 1.0, lifestyle: 1.0, preferences: 1.0 },
+    B: { personality: 1.0, lifestyle: 1.0, preferences: 1.0 },
+    AB: { personality: 1.0, lifestyle: 1.0, preferences: 1.0 },
+    O: { personality: 1.0, lifestyle: 1.0, preferences: 1.0 }
+}));
+let learningRate = 0.1; // How much to adjust weights based on feedback
+
 // Quiz questions database
 const quizQuestions = [
     {
@@ -487,6 +497,13 @@ function handleNavigation(e) {
     const targetSection = document.getElementById(targetId);
     if (targetSection) {
         targetSection.classList.add('active');
+        
+        // Show learning analytics if viewing analytics section
+        if (targetId === 'analytics') {
+            setTimeout(() => {
+                displayLearningAnalytics();
+            }, 100);
+        }
     }
     
     // Load section-specific data
@@ -520,6 +537,15 @@ function loadDashboardData() {
 
 function updateStats() {
     document.getElementById('totalTests').textContent = tests.length;
+    
+    // Update learning analytics if available
+    const analytics = showLearningAnalytics();
+    if (analytics.totalFeedback > 0) {
+        console.log(`Algorithm Learning Progress:
+        Total Feedback: ${analytics.totalFeedback}
+        Accuracy: ${analytics.accuracy}%
+        Learning Status: ${analytics.accuracy > 70 ? 'Good' : 'Improving'}`);
+    }
 }
 
 function loadRecentActivity() {
@@ -730,51 +756,14 @@ function submitQuiz() {
 }
 
 function calculateBloodType() {
-    const scores = { A: 0, B: 0, AB: 0, O: 0 };
+    // Use the learning-enhanced calculation
+    const result = calculateBloodTypeWithLearning();
     
-    console.log('Calculating blood type with answers:', selectedAnswers);
+    console.log('Learning-enhanced blood type calculation:', result);
+    console.log('Current algorithm weights:', algorithmWeights);
+    console.log('Total feedback collected:', feedbackData.length);
     
-    // Calculate scores based on selected answers
-    currentQuiz.forEach((question, index) => {
-        const selectedAnswer = selectedAnswers[index];
-        console.log(`Question ${index + 1}: Selected answer ${selectedAnswer}`);
-        
-        if (selectedAnswer !== undefined && question.bloodTypeWeights) {
-            const weights = question.bloodTypeWeights[selectedAnswer];
-            console.log(`Question ${index + 1} weights:`, weights);
-            
-            if (weights) {
-            scores.A += weights.A;
-            scores.B += weights.B;
-            scores.AB += weights.AB;
-            scores.O += weights.O;
-            }
-        }
-    });
-    
-    console.log('Final scores:', scores);
-    
-    // Find the blood type with highest score
-    let maxScore = 0;
-    let determinedType = 'A';
-    
-    Object.keys(scores).forEach(type => {
-        if (scores[type] > maxScore) {
-            maxScore = scores[type];
-            determinedType = type;
-        }
-    });
-    
-    const totalScore = Object.values(scores).reduce((a, b) => a + b, 0);
-    const confidence = totalScore > 0 ? Math.round((maxScore / totalScore) * 100) : 0;
-    
-    console.log(`Determined type: ${determinedType}, Confidence: ${confidence}%`);
-    
-    return {
-        type: determinedType,
-        scores: scores,
-        confidence: confidence
-    };
+    return result;
 }
 
 function displayBloodTypeResult(result) {
@@ -860,6 +849,341 @@ function displayBloodTypeResult(result) {
     
     // Hide the quiz controls since we're showing results
     document.querySelector('.quiz-controls').style.display = 'none';
+    
+    // Show feedback popup after a short delay
+    setTimeout(() => {
+        showFeedbackPopup(result.type, result.confidence);
+    }, 1000);
+}
+
+function showFeedbackPopup(predictedBloodType, confidence) {
+    // Create feedback popup
+    const feedbackPopup = document.createElement('div');
+    feedbackPopup.className = 'feedback-popup-overlay';
+    feedbackPopup.innerHTML = `
+        <div class="feedback-popup">
+            <div class="feedback-header">
+                <h3>🔬 Prototype Feedback</h3>
+                <p>Since this is a prototype, we highly value your response for our better service.</p>
+            </div>
+            
+            <div class="feedback-question">
+                <h4>Was the result correct?</h4>
+                <p>We predicted your blood type as: <strong>${predictedBloodType}</strong> (${confidence}% confidence)</p>
+            </div>
+            
+            <div class="feedback-buttons">
+                <button class="btn btn-success feedback-btn" onclick="handleFeedbackResponse(true, '${predictedBloodType}')">
+                    ✅ Yes, it's correct
+                </button>
+                <button class="btn btn-danger feedback-btn" onclick="handleFeedbackResponse(false, '${predictedBloodType}')">
+                    ❌ No, it's incorrect
+                </button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(feedbackPopup);
+}
+
+function handleFeedbackResponse(isCorrect, predictedBloodType) {
+    // Store feedback data
+    const feedback = {
+        timestamp: new Date().toISOString(),
+        predictedBloodType: predictedBloodType,
+        isCorrect: isCorrect,
+        userAnswers: [...selectedAnswers], // Store the user's quiz answers
+        actualBloodType: null // Will be filled if incorrect
+    };
+    
+    if (isCorrect) {
+        // Store positive feedback
+        feedbackData.push(feedback);
+        localStorage.setItem('bloodTypeFeedback', JSON.stringify(feedbackData));
+        
+        // Update algorithm weights for correct prediction
+        updateAlgorithmWeights(predictedBloodType, true, selectedAnswers);
+        
+        showGratitudeMessage(true);
+    } else {
+        showActualBloodTypeSelection(predictedBloodType);
+    }
+}
+
+function showActualBloodTypeSelection(predictedBloodType) {
+    // Remove existing popup
+    const existingPopup = document.querySelector('.feedback-popup-overlay');
+    if (existingPopup) {
+        existingPopup.remove();
+    }
+    
+    // Create blood type selection popup
+    const selectionPopup = document.createElement('div');
+    selectionPopup.className = 'feedback-popup-overlay';
+    selectionPopup.innerHTML = `
+        <div class="feedback-popup">
+            <div class="feedback-header">
+                <h3>🩸 What is your actual blood type?</h3>
+                <p>Thank you for helping us improve our algorithm!</p>
+            </div>
+            
+            <div class="blood-type-selection">
+                <div class="blood-type-grid">
+                    <button class="blood-type-option" onclick="selectActualBloodType('A+')">A+</button>
+                    <button class="blood-type-option" onclick="selectActualBloodType('A-')">A-</button>
+                    <button class="blood-type-option" onclick="selectActualBloodType('B+')">B+</button>
+                    <button class="blood-type-option" onclick="selectActualBloodType('B-')">B-</button>
+                    <button class="blood-type-option" onclick="selectActualBloodType('AB+')">AB+</button>
+                    <button class="blood-type-option" onclick="selectActualBloodType('AB-')">AB-</button>
+                    <button class="blood-type-option" onclick="selectActualBloodType('O+')">O+</button>
+                    <button class="blood-type-option" onclick="selectActualBloodType('O-')">O-</button>
+                </div>
+            </div>
+            
+            <div class="feedback-note">
+                <p><small>We predicted: <strong>${predictedBloodType}</strong> | Your actual: <span id="selectedType">Select above</span></p>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(selectionPopup);
+}
+
+function selectActualBloodType(actualBloodType) {
+    // Update the display
+    const selectedTypeSpan = document.getElementById('selectedType');
+    if (selectedTypeSpan) {
+        selectedTypeSpan.textContent = actualBloodType;
+    }
+    
+    // Store feedback data with actual blood type
+    const lastFeedback = feedbackData[feedbackData.length - 1];
+    if (lastFeedback) {
+        lastFeedback.actualBloodType = actualBloodType;
+        lastFeedback.isCorrect = false;
+        
+        // Update algorithm weights for incorrect prediction
+        updateAlgorithmWeights(lastFeedback.predictedBloodType, false, selectedAnswers, actualBloodType);
+        
+        // Save updated feedback
+        localStorage.setItem('bloodTypeFeedback', JSON.stringify(feedbackData));
+    }
+    
+    // Show gratitude and close popup
+    setTimeout(() => {
+        showGratitudeMessage(false, actualBloodType);
+    }, 500);
+}
+
+function showGratitudeMessage(isCorrect, actualBloodType = null) {
+    // Remove existing popup
+    const existingPopup = document.querySelector('.feedback-popup-overlay');
+    if (existingPopup) {
+        existingPopup.remove();
+    }
+    
+    let message = '';
+    if (isCorrect) {
+        message = `
+            <div class="feedback-popup">
+                <div class="feedback-header">
+                    <h3>🎉 Thank You!</h3>
+                    <p>Your feedback helps us improve our blood type prediction algorithm!</p>
+                </div>
+                <div class="gratitude-message">
+                    <p>We're glad our prediction was accurate. Your input is valuable for making our service better!</p>
+                    <button class="btn btn-primary" onclick="closeFeedbackPopup()">Continue</button>
+                </div>
+            </div>
+        `;
+    } else {
+        message = `
+            <div class="feedback-popup">
+                <div class="feedback-header">
+                    <h3>🙏 Thank You!</h3>
+                    <p>Your feedback is incredibly valuable for improving our algorithm!</p>
+                </div>
+                <div class="gratitude-message">
+                    <p>We predicted <strong>${actualBloodType}</strong> but you have <strong>${actualBloodType}</strong>. This data helps us refine our personality-based predictions.</p>
+                    <button class="btn btn-primary" onclick="closeFeedbackPopup()">Continue</button>
+                </div>
+            </div>
+        `;
+    }
+    
+    const gratitudePopup = document.createElement('div');
+    gratitudePopup.className = 'feedback-popup-overlay';
+    gratitudePopup.innerHTML = message;
+    
+    document.body.appendChild(gratitudePopup);
+}
+
+function closeFeedbackPopup() {
+    const popup = document.querySelector('.feedback-popup-overlay');
+    if (popup) {
+        popup.remove();
+    }
+}
+
+// Algorithm Learning Functions
+function updateAlgorithmWeights(predictedBloodType, isCorrect, userAnswers, actualBloodType = null) {
+    if (isCorrect) {
+        // Strengthen weights for the correctly predicted blood type
+        strengthenWeights(predictedBloodType, userAnswers);
+    } else {
+        // Weaken weights for the incorrectly predicted blood type
+        weakenWeights(predictedBloodType, userAnswers);
+        
+        // Strengthen weights for the actual blood type
+        if (actualBloodType) {
+            strengthenWeights(actualBloodType, userAnswers);
+        }
+    }
+    
+    // Save updated weights
+    localStorage.setItem('algorithmWeights', JSON.stringify(algorithmWeights));
+    
+    console.log('Algorithm weights updated:', algorithmWeights);
+}
+
+function strengthenWeights(bloodType, userAnswers) {
+    // Increase weights for the blood type based on user answers
+    const baseType = bloodType.replace(/[+-]/, ''); // Remove Rh factor for base type
+    
+    userAnswers.forEach((answer, questionIndex) => {
+        if (answer && answer.bloodTypeWeights) {
+            const weight = answer.bloodTypeWeights[baseType] || 0;
+            if (weight > 0) {
+                algorithmWeights[baseType].personality += learningRate * weight;
+                algorithmWeights[baseType].lifestyle += learningRate * weight;
+                algorithmWeights[baseType].preferences += learningRate * weight;
+            }
+        }
+    });
+}
+
+function weakenWeights(bloodType, userAnswers) {
+    // Decrease weights for the blood type based on user answers
+    const baseType = bloodType.replace(/[+-]/, ''); // Remove Rh factor for base type
+    
+    userAnswers.forEach((answer, questionIndex) => {
+        if (answer && answer.bloodTypeWeights) {
+            const weight = answer.bloodTypeWeights[baseType] || 0;
+            if (weight > 0) {
+                algorithmWeights[baseType].personality -= learningRate * weight * 0.5;
+                algorithmWeights[baseType].lifestyle -= learningRate * weight * 0.5;
+                algorithmWeights[baseType].preferences -= learningRate * weight * 0.5;
+                
+                // Ensure weights don't go below 0.1
+                algorithmWeights[baseType].personality = Math.max(0.1, algorithmWeights[baseType].personality);
+                algorithmWeights[baseType].lifestyle = Math.max(0.1, algorithmWeights[baseType].lifestyle);
+                algorithmWeights[baseType].preferences = Math.max(0.1, algorithmWeights[baseType].preferences);
+            }
+        }
+    });
+}
+
+// Enhanced blood type calculation with learned weights
+function calculateBloodTypeWithLearning() {
+    const scores = { A: 0, B: 0, AB: 0, O: 0 };
+    
+    // Apply learned weights to the calculation
+    Object.keys(selectedAnswers).forEach(questionIndex => {
+        const answer = selectedAnswers[questionIndex];
+        if (answer && answer.bloodTypeWeights) {
+            Object.keys(scores).forEach(bloodType => {
+                const baseWeight = answer.bloodTypeWeights[bloodType] || 0;
+                const learnedWeight = algorithmWeights[bloodType].personality * 
+                                   algorithmWeights[bloodType].lifestyle * 
+                                   algorithmWeights[bloodType].preferences;
+                
+                scores[bloodType] += baseWeight * learnedWeight;
+            });
+        }
+    });
+    
+    // Find the blood type with highest score
+    const maxScore = Math.max(...Object.values(scores));
+    const predictedType = Object.keys(scores).find(type => scores[type] === maxScore);
+    
+    // Calculate confidence based on score difference
+    const sortedScores = Object.values(scores).sort((a, b) => b - a);
+    const confidence = Math.round(((sortedScores[0] - sortedScores[1]) / sortedScores[0]) * 100);
+    
+    return {
+        type: predictedType,
+        scores: scores,
+        confidence: Math.max(confidence, 60) // Minimum 60% confidence
+    };
+}
+
+// Analytics function to show learning progress
+function showLearningAnalytics() {
+    const totalFeedback = feedbackData.length;
+    const correctPredictions = feedbackData.filter(f => f.isCorrect).length;
+    const accuracy = totalFeedback > 0 ? Math.round((correctPredictions / totalFeedback) * 100) : 0;
+    
+    console.log(`Learning Analytics:
+    Total Feedback: ${totalFeedback}
+    Correct Predictions: ${correctPredictions}
+    Accuracy: ${accuracy}%
+    Algorithm Weights:`, algorithmWeights);
+    
+    return {
+        totalFeedback,
+        correctPredictions,
+        accuracy,
+        weights: algorithmWeights
+    };
+}
+
+// Display learning analytics in the analytics section
+function displayLearningAnalytics() {
+    const analytics = showLearningAnalytics();
+    
+    if (analytics.totalFeedback > 0) {
+        const analyticsCard = document.querySelector('#analytics .analytics-card:last-child');
+        if (analyticsCard) {
+            analyticsCard.innerHTML = `
+                <h3>🤖 Algorithm Learning Progress</h3>
+                <div class="learning-stats">
+                    <div class="learning-stat">
+                        <span class="stat-label">Total Feedback:</span>
+                        <span class="stat-value">${analytics.totalFeedback}</span>
+                    </div>
+                    <div class="learning-stat">
+                        <span class="stat-label">Accuracy:</span>
+                        <span class="stat-value">${analytics.accuracy}%</span>
+                    </div>
+                    <div class="learning-stat">
+                        <span class="stat-label">Status:</span>
+                        <span class="stat-value ${analytics.accuracy > 70 ? 'good' : 'improving'}">${analytics.accuracy > 70 ? 'Good' : 'Improving'}</span>
+                    </div>
+                    <div class="learning-weights">
+                        <h4>Current Algorithm Weights:</h4>
+                        <div class="weights-grid">
+                            ${Object.keys(analytics.weights).map(type => `
+                                <div class="weight-item">
+                                    <span class="weight-type">${type}:</span>
+                                    <div class="weight-bars">
+                                        <div class="weight-bar">
+                                            <span>Personality: ${analytics.weights[type].personality.toFixed(2)}</span>
+                                        </div>
+                                        <div class="weight-bar">
+                                            <span>Lifestyle: ${analytics.weights[type].lifestyle.toFixed(2)}</span>
+                                        </div>
+                                        <div class="weight-bar">
+                                            <span>Preferences: ${analytics.weights[type].preferences.toFixed(2)}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+    }
 }
 
 function displayCompatibilityTable() {
