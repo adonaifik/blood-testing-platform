@@ -1,4 +1,4 @@
-/* BLOOD TESTING - Interactive Laboratory Management System - Dynamic CSS */
+/* Blood Testing Laboratory Management System - CSS Styles */
 
 * {
     margin: 0;
@@ -10,112 +10,29 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     color: #333;
-    overflow-x: hidden;
-    position: relative;
-}
-
-/* Dynamic Background */
-.dynamic-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #533483 75%, #e94560 100%);
-    background-size: 400% 400%;
-    animation: gradientShift 15s ease infinite;
-    z-index: -2;
-}
-
-@keyframes gradientShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-/* Floating Cells Animation */
-.floating-cells {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    overflow: hidden;
-}
-
-.floating-cells::before,
-.floating-cells::after {
-    content: '';
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
-    animation: float 20s infinite linear;
-}
-
-.floating-cells::before {
-    top: 20%;
-    left: 10%;
-    animation-delay: 0s;
-}
-
-.floating-cells::after {
-    top: 60%;
-    right: 15%;
-    animation-delay: 10s;
-}
-
-@keyframes float {
-    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
-}
-
-/* Pulse Animation */
-.pulse-animation {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    width: 300px;
-    height: 300px;
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    animation: pulse 4s ease-in-out infinite;
-    z-index: -1;
-}
-
-@keyframes pulse {
-    0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
-    50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.1; }
-    100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
 }
 
 .container {
-    max-width: 1400px;
+    max-width: 1200px;
     margin: 0 auto;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+    background: white;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     min-height: 100vh;
-    position: relative;
-    z-index: 1;
 }
 
-/* Dashboard Header */
-.dashboard-header {
-    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 50%, #8e44ad 100%);
+/* Header Styles */
+header {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
     color: white;
-    padding: 3rem 0;
+    padding: 2rem 0;
     text-align: center;
     position: relative;
     overflow: hidden;
 }
 
-.dashboard-header::before {
+header::before {
     content: '';
     position: absolute;
     top: 0;
@@ -124,79 +41,27 @@ body {
     bottom: 0;
     background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="80" r="1" fill="rgba(255,255,255,0.1)"/></svg>');
     opacity: 0.3;
-    animation: backgroundMove 20s linear infinite;
 }
 
-@keyframes backgroundMove {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(100px); }
-}
-
-.header-content {
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
     position: relative;
     z-index: 1;
 }
 
-.main-title {
-    font-size: 4rem;
-    font-weight: 900;
-    margin-bottom: 0.5rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    animation: titleGlow 3s ease-in-out infinite alternate;
-}
-
-@keyframes titleGlow {
-    0% { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); }
-    100% { text-shadow: 2px 2px 20px rgba(255, 255, 255, 0.5); }
-}
-
-.subtitle {
-    font-size: 1.3rem;
+header p {
+    font-size: 1.1rem;
     opacity: 0.9;
-    margin-bottom: 2rem;
+    position: relative;
+    z-index: 1;
 }
 
-/* Dashboard Stats */
-.dashboard-stats {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    flex-wrap: wrap;
-    margin-top: 2rem;
-}
-
-.stat-card {
-    background: rgba(255, 255, 255, 0.2);
-    padding: 1.5rem;
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    min-width: 150px;
-    text-align: center;
-    transition: transform 0.3s ease;
-}
-
-.stat-card:hover {
-    transform: translateY(-5px);
-}
-
-.stat-number {
-    font-size: 2.5rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-}
-
-.stat-label {
-    font-size: 0.9rem;
-    opacity: 0.9;
-}
-
-/* Navigation */
+/* Navigation Styles */
 .nav-menu {
-    background: rgba(44, 62, 80, 0.95);
+    background: #2c3e50;
     padding: 0;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .nav-menu ul {
@@ -206,21 +71,23 @@ body {
     flex-wrap: wrap;
 }
 
+.nav-menu li {
+    margin: 0;
+}
+
 .nav-menu a {
     display: block;
-    padding: 1.2rem 2rem;
+    padding: 1rem 1.5rem;
     color: white;
     text-decoration: none;
     transition: all 0.3s ease;
     border-bottom: 3px solid transparent;
-    font-weight: 600;
 }
 
 .nav-menu a:hover,
 .nav-menu a.active {
-    background: rgba(52, 73, 94, 0.8);
+    background: #34495e;
     border-bottom-color: #e74c3c;
-    transform: translateY(-2px);
 }
 
 /* Main Content */
@@ -231,426 +98,24 @@ main {
 .section {
     margin-bottom: 3rem;
     padding: 2rem;
-    background: rgba(248, 249, 250, 0.8);
-    border-radius: 15px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(5px);
-    display: none;
-}
-
-.section.active {
-    display: block;
-    animation: fadeIn 0.5s ease-in-out;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    background: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 .section h2 {
     color: #2c3e50;
-    margin-bottom: 2rem;
-    font-size: 2rem;
-    border-bottom: 3px solid #e74c3c;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    border-bottom: 2px solid #e74c3c;
     padding-bottom: 0.5rem;
-}
-
-/* Dashboard Grid */
-.dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
-}
-
-.dashboard-card {
-    background: white;
-    padding: 2rem;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-}
-
-.dashboard-card:hover {
-    transform: translateY(-5px);
-}
-
-.dashboard-card h3 {
-    color: #2c3e50;
-    margin-bottom: 1.5rem;
-    font-size: 1.3rem;
-}
-
-/* Quick Actions */
-.quick-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.action-btn {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem;
-    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 1rem;
-    font-weight: 600;
-}
-
-.action-btn:hover {
-    background: linear-gradient(135deg, #2980b9 0%, #21618c 100%);
-    transform: translateX(5px);
-}
-
-.action-btn .icon {
-    font-size: 1.5rem;
-}
-
-/* Activity List */
-.activity-list {
-    max-height: 300px;
-    overflow-y: auto;
-}
-
-.activity-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.75rem;
-    border-bottom: 1px solid #eee;
-    transition: background 0.3s ease;
-}
-
-.activity-item:hover {
-    background: #f8f9fa;
-}
-
-.activity-time {
-    color: #666;
-    font-size: 0.9rem;
-}
-
-.activity-text {
-    color: #2c3e50;
-}
-
-/* Quiz Selection Styles */
-.quiz-selection {
-    background: white;
-    border-radius: 15px;
-    padding: 2rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    margin-bottom: 2rem;
-}
-
-.quiz-selection h3 {
-    color: #2c3e50;
-    margin-bottom: 2rem;
-    text-align: center;
-    font-size: 1.5rem;
-}
-
-.quiz-types {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.quiz-type-card {
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    border: 2px solid #dee2e6;
-    border-radius: 15px;
-    padding: 2rem;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.quiz-type-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-    transition: left 0.5s ease;
-}
-
-.quiz-type-card:hover::before {
-    left: 100%;
-}
-
-.quiz-type-card:hover {
-    transform: translateY(-5px);
-    border-color: #e74c3c;
-    box-shadow: 0 8px 25px rgba(231, 76, 60, 0.2);
-}
-
-.quiz-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    display: block;
-}
-
-.quiz-type-card h4 {
-    color: #2c3e50;
-    margin-bottom: 1rem;
-    font-size: 1.3rem;
-}
-
-.quiz-type-card p {
-    color: #666;
-    margin-bottom: 1rem;
-    line-height: 1.5;
-}
-
-.quiz-count {
-    background: #e74c3c;
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 600;
-}
-
-/* Enhanced Quiz Container */
-.quiz-container {
-    background: white;
-    border-radius: 15px;
-    padding: 2rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-}
-
-.quiz-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid #eee;
-    flex-wrap: wrap;
-    gap: 1rem;
-}
-
-.quiz-title {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.quiz-title h3 {
-    color: #2c3e50;
-    margin: 0;
-    font-size: 1.5rem;
-}
-
-.quiz-type-badge {
-    background: linear-gradient(135deg, #e74c3c, #c0392b);
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 600;
-}
-
-.quiz-progress {
-    flex: 1;
-    margin: 0 2rem;
-    min-width: 200px;
-}
-
-.progress-bar {
-    width: 100%;
-    height: 8px;
-    background: #eee;
-    border-radius: 4px;
-    overflow: hidden;
-    margin-bottom: 0.5rem;
-}
-
-.progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #e74c3c, #c0392b);
-    width: 0%;
-    transition: width 0.3s ease;
-}
-
-.progress-text {
-    font-weight: 600;
-    color: #2c3e50;
-}
-
-.quiz-score {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #e74c3c;
-    background: rgba(231, 76, 60, 0.1);
-    padding: 0.5rem 1rem;
-    border-radius: 10px;
-}
-
-/* Quiz Results Styles */
-.quiz-results {
-    background: white;
-    border-radius: 15px;
-    padding: 2rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-}
-
-.result-summary {
-    text-align: center;
-    margin-bottom: 2rem;
-    padding: 2rem;
-    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-    border-radius: 15px;
-}
-
-.score-display h2 {
-    color: #e74c3c;
-    font-size: 3rem;
-    margin-bottom: 0.5rem;
-}
-
-.score-display p {
-    color: #666;
-    font-size: 1.1rem;
-}
-
-.detailed-results {
-    margin-top: 2rem;
-}
-
-.detailed-results h4 {
-    color: #2c3e50;
-    margin-bottom: 1.5rem;
-    font-size: 1.3rem;
-}
-
-.question-review {
-    background: #f8f9fa;
-    padding: 1.5rem;
-    margin-bottom: 1rem;
-    border-radius: 10px;
-    border-left: 4px solid #ddd;
-}
-
-.question-review.correct {
-    border-left-color: #27ae60;
-    background: #d4edda;
-}
-
-.question-review.incorrect {
-    border-left-color: #e74c3c;
-    background: #f8d7da;
-}
-
-.question-review h5 {
-    color: #2c3e50;
-    margin-bottom: 1rem;
-    font-size: 1.1rem;
-}
-
-.question-review p {
-    margin-bottom: 0.5rem;
-    color: #555;
-}
-
-.question-review p strong {
-    color: #2c3e50;
-}
-
-/* Blood Type Compatibility Chart */
-.compatibility-chart {
-    background: white;
-    border-radius: 15px;
-    padding: 2rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    margin-top: 2rem;
-}
-
-.compatibility-chart h3 {
-    color: #2c3e50;
-    margin-bottom: 1.5rem;
-    text-align: center;
-}
-
-.compatibility-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-}
-
-.compatibility-item {
-    background: #f8f9fa;
-    padding: 1rem;
-    border-radius: 10px;
-    text-align: center;
-    border: 2px solid #dee2e6;
-}
-
-.compatibility-item h4 {
-    color: #2c3e50;
-    margin-bottom: 0.5rem;
-}
-
-.compatibility-item p {
-    color: #666;
-    font-size: 0.9rem;
-}
-
-/* Responsive Quiz Styles */
-@media (max-width: 768px) {
-    .quiz-types {
-        grid-template-columns: 1fr;
-    }
-    
-    .quiz-header {
-        flex-direction: column;
-        text-align: center;
-    }
-    
-    .quiz-progress {
-        margin: 1rem 0;
-        width: 100%;
-    }
-    
-    .quiz-title {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-    
-    .quiz-controls {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-    
-    .compatibility-grid {
-        grid-template-columns: 1fr;
-    }
 }
 
 /* Form Styles */
 .form {
     display: grid;
     gap: 1.5rem;
-    max-width: 800px;
-}
-
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
+    max-width: 600px;
 }
 
 .form-group {
@@ -669,9 +134,9 @@ main {
 .form-group textarea {
     padding: 0.75rem;
     border: 2px solid #ddd;
-    border-radius: 8px;
+    border-radius: 5px;
     font-size: 1rem;
-    transition: all 0.3s ease;
+    transition: border-color 0.3s ease;
 }
 
 .form-group input:focus,
@@ -682,11 +147,16 @@ main {
     box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
 }
 
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
 /* Button Styles */
 .btn {
     padding: 0.75rem 1.5rem;
     border: none;
-    border-radius: 8px;
+    border-radius: 5px;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
@@ -718,462 +188,193 @@ main {
     box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
 }
 
-.btn-success {
-    background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
-    color: white;
+/* Search Section */
+.search-section {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
-.btn-success:hover {
-    background: linear-gradient(135deg, #229954 0%, #1e8449 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+.search-section .form-group {
+    flex-direction: row;
+    align-items: end;
+    gap: 1rem;
 }
 
-.btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none;
+.search-section input {
+    flex: 1;
 }
 
 /* Results Display */
 .results-display {
     background: white;
-    padding: 2rem;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    min-height: 300px;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    min-height: 200px;
 }
 
-.welcome-message {
-    text-align: center;
-    color: #666;
-    padding: 2rem;
-}
-
-.welcome-message h3 {
-    color: #2c3e50;
-    margin-bottom: 1rem;
-}
-
-/* Analytics */
-.analytics-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
-}
-
-.analytics-card {
-    background: white;
-    padding: 2rem;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-.chart-container {
-    height: 200px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.result-item {
     background: #f8f9fa;
-    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    border-left: 4px solid #e74c3c;
+}
+
+.result-item h4 {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.result-item .test-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
     margin-top: 1rem;
 }
 
-.demographics {
-    margin-top: 1rem;
+.test-parameter {
+    background: white;
+    padding: 0.75rem;
+    border-radius: 5px;
+    border: 1px solid #ddd;
 }
 
-.demo-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid #eee;
-}
-
-.demo-label {
+.test-parameter .parameter-name {
     font-weight: 600;
     color: #2c3e50;
 }
 
-.demo-value {
-    font-weight: bold;
-    color: #e74c3c;
+.test-parameter .parameter-value {
+    font-size: 1.1rem;
+    margin: 0.25rem 0;
+}
+
+.test-parameter .parameter-status {
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.status-normal {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-high {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.status-low {
+    background: #fff3cd;
+    color: #856404;
+}
+
+/* Reports Grid */
+.reports-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.report-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.report-card:hover {
+    transform: translateY(-5px);
+}
+
+.report-card h3 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.report-card p {
+    color: #666;
+    margin-bottom: 1.5rem;
 }
 
 /* Footer */
 footer {
-    background: rgba(44, 62, 80, 0.95);
+    background: #2c3e50;
     color: white;
     text-align: center;
     padding: 2rem 0;
     margin-top: 3rem;
-    backdrop-filter: blur(10px);
 }
 
-/* Responsive Design - Mobile First */
-@media (max-width: 480px) {
+/* Responsive Design */
+@media (max-width: 768px) {
     .container {
-        padding: 0.5rem;
+        margin: 0;
+        box-shadow: none;
     }
     
-    .main-title {
+    header h1 {
         font-size: 2rem;
-        margin-bottom: 0.5rem;
-    }
-    
-    .subtitle {
-        font-size: 1rem;
-        margin-bottom: 1rem;
-    }
-    
-    .dashboard-header {
-        padding: 1.5rem 1rem;
-        text-align: center;
-    }
-    
-    .dashboard-stats {
-        justify-content: center;
-        margin-top: 1rem;
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .stat-card {
-        padding: 1rem;
-        min-width: 120px;
-    }
-    
-    .stat-number {
-        font-size: 1.5rem;
     }
     
     .nav-menu ul {
         flex-direction: column;
-        gap: 0.25rem;
-        padding: 0.5rem;
     }
     
     .nav-menu a {
-        padding: 0.75rem 1rem;
         text-align: center;
-        font-size: 0.9rem;
-        border-radius: 8px;
     }
     
-    .dashboard-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-    
-    .dashboard-card {
+    main {
         padding: 1rem;
     }
     
-    .quick-actions {
-        flex-direction: column;
-        gap: 0.75rem;
-    }
-    
-    .action-btn {
-        padding: 0.75rem 1rem;
-        font-size: 0.9rem;
-    }
-    
-    .quiz-selection {
-        padding: 1rem;
-    }
-    
-    .quiz-types {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-        max-width: 100%;
-    }
-    
-    .quiz-type-card {
-        padding: 1.5rem 1rem;
-    }
-    
-    .quiz-type-card h4 {
-        font-size: 1.1rem;
-    }
-    
-    .quiz-type-card p {
-        font-size: 0.9rem;
-    }
-    
-    .quiz-header {
-        flex-direction: column;
-        gap: 1rem;
-        padding: 1rem;
-    }
-    
-    .quiz-title h3 {
-        font-size: 1.2rem;
-    }
-    
-    .quiz-progress {
-        width: 100%;
-        margin-right: 0;
-    }
-    
-    .progress-text {
-        font-size: 0.8rem;
-    }
-    
-    .quiz-question {
-        padding: 1rem;
-    }
-    
-    .quiz-question h3 {
-        font-size: 1.1rem;
-        margin-bottom: 1rem;
-    }
-    
-    .quiz-options {
-        gap: 0.75rem;
-    }
-    
-    .quiz-option {
-        padding: 0.75rem 1rem;
-        font-size: 0.9rem;
-    }
-    
-    .quiz-controls {
-        flex-direction: column;
-        gap: 0.75rem;
-        padding: 1rem;
-    }
-    
-    .btn {
-        padding: 0.75rem 1.5rem;
-        font-size: 0.9rem;
-        width: 100%;
-    }
-    
-    .form-row {
-        flex-direction: column;
-        gap: 1rem;
-    }
-    
-    .form-group {
-        width: 100%;
-    }
-    
-    .form-group input,
-    .form-group select {
-        padding: 0.75rem;
-        font-size: 1rem;
-    }
-    
-    .compatibility-table-container {
-        overflow-x: auto;
-        margin: 0 -1rem;
-        padding: 0 1rem;
-    }
-    
-    .compatibility-table {
-        font-size: 0.8rem;
-        min-width: 600px;
-    }
-    
-    .compatibility-table th,
-    .compatibility-table td {
-        padding: 0.5rem 0.25rem;
-    }
-    
-    .blood-type-name {
-        font-size: 0.9rem;
-    }
-    
-    .compat-tag {
-        font-size: 0.7rem;
-        padding: 0.2rem 0.4rem;
-        margin: 0.1rem;
-    }
-    
-    .compatibility-notes ul {
-        padding-left: 1rem;
-    }
-    
-    .compatibility-notes li {
-        font-size: 0.9rem;
-        margin-bottom: 0.5rem;
-    }
-    
-    .analytics-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-    
-    .analytics-card {
-        padding: 1rem;
-    }
-    
-    .chart-container {
-        height: 200px;
-    }
-    
-    .demographics {
-        gap: 0.75rem;
-    }
-    
-    .demo-item {
-        font-size: 0.9rem;
-    }
-    
-    .search-section {
+    .section {
         padding: 1rem;
     }
     
     .search-section .form-group {
         flex-direction: column;
-        gap: 0.75rem;
+        align-items: stretch;
     }
     
-    .search-section input {
-        width: 100%;
+    .reports-grid {
+        grid-template-columns: 1fr;
     }
     
-    .search-section button {
-        width: 100%;
-    }
-    
-    .results-display {
-        padding: 1rem;
-    }
-    
-    .welcome-message h3 {
-        font-size: 1.2rem;
-    }
-    
-    .welcome-message p {
-        font-size: 0.9rem;
-    }
-    
-    .activity-list {
-        gap: 0.75rem;
-    }
-    
-    .activity-item {
-        padding: 0.75rem;
-        font-size: 0.9rem;
-    }
-    
-    .quiz-stats {
-        gap: 0.75rem;
-    }
-    
-    .quiz-stat {
-        font-size: 0.9rem;
+    .result-item .test-info {
+        grid-template-columns: 1fr;
     }
 }
 
-@media (max-width: 768px) and (min-width: 481px) {
-    .container {
-        padding: 1rem;
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.5rem;
     }
     
-    .main-title {
-        font-size: 2.5rem;
+    header p {
+        font-size: 1rem;
     }
     
-    .dashboard-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
-    
-    .nav-menu ul {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 0.5rem;
-    }
-    
-    .quiz-types {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-        max-width: 600px;
-    }
-    
-    .quiz-header {
-        flex-direction: column;
+    .form {
         gap: 1rem;
-    }
-    
-    .quiz-controls {
-        flex-wrap: wrap;
-        gap: 0.75rem;
     }
     
     .btn {
-        flex: 1;
-        min-width: 120px;
-    }
-    
-    .form-row {
-        flex-direction: column;
-        gap: 1rem;
-    }
-    
-    .compatibility-table-container {
-        overflow-x: auto;
-    }
-    
-    .compatibility-table {
-        min-width: 700px;
-    }
-    
-    .analytics-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
     }
 }
-
-@media (max-width: 1024px) and (min-width: 769px) {
-    .container {
-        padding: 1.5rem;
-    }
-    
-    .dashboard-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1.5rem;
-    }
-    
-    .quiz-types {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1.5rem;
-        max-width: 800px;
-    }
-    
-    .analytics-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1.5rem;
-    }
-    
-    .form-row {
-        gap: 1.5rem;
-    }
-}
-
-@media (min-width: 1025px) {
-    .container {
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-    
-    .dashboard-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-    
-    .quiz-types {
-        grid-template-columns: repeat(2, 1fr);
-        max-width: 800px;
-    }
-    
-    .analytics-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
 
 /* Loading Animation */
 .loading {
@@ -1191,18 +392,12 @@ footer {
     100% { transform: rotate(360deg); }
 }
 
-/* Message Styles */
+/* Success/Error Messages */
 .message {
     padding: 1rem;
-    border-radius: 8px;
+    border-radius: 5px;
     margin-bottom: 1rem;
     font-weight: 600;
-    animation: slideIn 0.3s ease;
-}
-
-@keyframes slideIn {
-    from { transform: translateX(-100%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
 }
 
 .message.success {
@@ -1217,720 +412,7 @@ footer {
     border: 1px solid #f5c6cb;
 }
 
-/* Blood Type Analysis Styles */
-.blood-type-analysis {
-    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-    border-radius: 15px;
-    padding: 2rem;
-    margin: 2rem 0;
-    border: 2px solid #dee2e6;
-}
-
-.blood-type-analysis h3 {
-    color: #2c3e50;
-    margin-bottom: 1.5rem;
-    text-align: center;
-    font-size: 1.5rem;
-}
-
-.analysis-content {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-}
-
-.analysis-section {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.analysis-section h4 {
-    color: #e74c3c;
-    margin-bottom: 1rem;
-    font-size: 1.2rem;
-}
-
-.analysis-section ul {
-    list-style: none;
-    padding: 0;
-}
-
-.analysis-section li {
-    padding: 0.5rem 0;
-    border-bottom: 1px solid #eee;
-}
-
-.analysis-section li:last-child {
-    border-bottom: none;
-}
-
-.compatibility-info {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.can-receive,
-.can-donate {
-    background: #f8f9fa;
-    padding: 1rem;
-    border-radius: 8px;
-    border-left: 4px solid #e74c3c;
-}
-
-.knowledge-level {
-    text-align: center;
-    padding: 1rem;
-    background: #f8f9fa;
-    border-radius: 10px;
-    font-size: 1.1rem;
-}
-
-.knowledge-expert {
-    color: #27ae60;
-    font-weight: bold;
-    font-size: 1.2rem;
-}
-
-.knowledge-advanced {
-    color: #3498db;
-    font-weight: bold;
-    font-size: 1.2rem;
-}
-
-.knowledge-intermediate {
-    color: #f39c12;
-    font-weight: bold;
-    font-size: 1.2rem;
-}
-
-.knowledge-basic {
-    color: #e67e22;
-    font-weight: bold;
-    font-size: 1.2rem;
-}
-
-.knowledge-beginner {
-    color: #e74c3c;
-    font-weight: bold;
-    font-size: 1.2rem;
-}
-
-/* Blood Type Determination Styles */
-.quiz-description {
-    text-align: center;
-    color: #666;
-    margin-bottom: 2rem;
-    font-size: 1.1rem;
-    line-height: 1.6;
-}
-
-.quiz-type-card.primary {
-    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-    color: white;
-    border-color: #e74c3c;
-    transform: scale(1.05);
-    box-shadow: 0 8px 25px rgba(231, 76, 60, 0.3);
-}
-
-.quiz-type-card.primary:hover {
-    transform: scale(1.08);
-    box-shadow: 0 12px 30px rgba(231, 76, 60, 0.4);
-}
-
-.quiz-type-card.primary .quiz-count {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-}
-
-/* Blood Type Result Styles */
-.blood-type-result {
-    background: white;
-    border-radius: 15px;
-    padding: 2rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-}
-
-.result-header {
-    text-align: center;
-    margin-bottom: 2rem;
-    padding: 2rem;
-    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-    border-radius: 15px;
-}
-
-.result-header h2 {
-    color: #2c3e50;
-    margin-bottom: 1.5rem;
-    font-size: 2rem;
-}
-
-.blood-type-display {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-}
-
-.blood-type-icon {
-    font-size: 4rem;
-    margin-bottom: 0.5rem;
-}
-
-.blood-type-name {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #e74c3c;
-    margin-bottom: 0.5rem;
-}
-
-.confidence-level {
-    background: #e74c3c;
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-weight: 600;
-}
-
-.blood-type-details {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin: 2rem 0;
-}
-
-.traits-section,
-.compatibility-section,
-.health-tips-section,
-.score-breakdown {
-    background: #f8f9fa;
-    padding: 1.5rem;
-    border-radius: 10px;
-    border-left: 4px solid #e74c3c;
-}
-
-.traits-section h3,
-.compatibility-section h3,
-.health-tips-section h3,
-.score-breakdown h3 {
-    color: #2c3e50;
-    margin-bottom: 1rem;
-    font-size: 1.2rem;
-}
-
-.traits-list,
-.health-tips {
-    list-style: none;
-    padding: 0;
-}
-
-.traits-list li,
-.health-tips li {
-    padding: 0.5rem 0;
-    border-bottom: 1px solid #dee2e6;
-    position: relative;
-    padding-left: 1.5rem;
-}
-
-.traits-list li:before,
-.health-tips li:before {
-    content: '✓';
-    position: absolute;
-    left: 0;
-    color: #27ae60;
-    font-weight: bold;
-}
-
-.traits-list li:last-child,
-.health-tips li:last-child {
-    border-bottom: none;
-}
-
-.compatibility-info {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.compat-item {
-    background: white;
-    padding: 1rem;
-    border-radius: 8px;
-    border-left: 3px solid #3498db;
-}
-
-.scores-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-}
-
-.score-item {
-    background: white;
-    padding: 1rem;
-    border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border: 2px solid #dee2e6;
-    transition: all 0.3s ease;
-}
-
-.score-item.highest {
-    border-color: #e74c3c;
-    background: #ffeaea;
-    transform: scale(1.05);
-}
-
-.score-label {
-    font-weight: 600;
-    color: #2c3e50;
-}
-
-.score-value {
-    font-weight: bold;
-    font-size: 1.2rem;
-    color: #e74c3c;
-}
-
-.disclaimer {
-    background: #fff3cd;
-    border: 1px solid #ffeaa7;
-    border-radius: 10px;
-    padding: 1rem;
-    margin-top: 2rem;
-    text-align: center;
-}
-
-.disclaimer p {
-    color: #856404;
-    margin: 0;
-    font-size: 0.9rem;
-}
-
-/* Quiz Options Styles */
-.quiz-options {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin: 2rem 0;
-}
-
-.quiz-option {
-    background: #f8f9fa;
-    border: 2px solid #dee2e6;
-    border-radius: 10px;
-    padding: 1rem 1.5rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 1rem;
-    line-height: 1.5;
-    position: relative;
-    overflow: hidden;
-}
-
-.quiz-option::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(231, 76, 60, 0.1), transparent);
-    transition: left 0.3s ease;
-}
-
-.quiz-option:hover {
-    border-color: #e74c3c;
-    background: #fff5f5;
-    transform: translateX(5px);
-    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.1);
-}
-
-.quiz-option:hover::before {
-    left: 100%;
-}
-
-.quiz-option.selected {
-    background: linear-gradient(135deg, #e74c3c, #c0392b);
-    color: white;
-    border-color: #e74c3c;
-    transform: translateX(5px);
-    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
-}
-
-.quiz-option.selected::before {
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-}
-
-/* Quiz Controls */
-.quiz-controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 2rem;
-    padding-top: 1rem;
-    border-top: 2px solid #eee;
-    flex-wrap: wrap;
-    gap: 1rem;
-}
-
-.quiz-controls .btn {
-    min-width: 120px;
-}
-
-/* Quiz Question Styles */
-.quiz-question {
-    margin: 2rem 0;
-}
-
-.quiz-question h3 {
-    color: #2c3e50;
-    margin-bottom: 1.5rem;
-    font-size: 1.3rem;
-    line-height: 1.6;
-    padding: 1rem;
-    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-    border-radius: 10px;
-    border-left: 4px solid #e74c3c;
-}
-
-/* Quiz Actions */
-.quiz-actions {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-top: 2rem;
-    flex-wrap: wrap;
-}
-
-/* Responsive Quiz Options */
-@media (max-width: 768px) {
-    .quiz-options {
-        gap: 0.75rem;
-    }
-    
-    .quiz-option {
-        padding: 0.75rem 1rem;
-        font-size: 0.95rem;
-    }
-    
-    .quiz-controls {
-        flex-direction: column;
-    }
-    
-    .quiz-controls .btn {
-        width: 100%;
-        min-width: auto;
-    }
-}
-
-/* Blood Compatibility Table Styles */
-.compatibility-reference {
-    background: white;
-    border-radius: 15px;
-    padding: 2rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-}
-
-.compatibility-header {
-    text-align: center;
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 3px solid #e74c3c;
-}
-
-.compatibility-header h2 {
-    color: #2c3e50;
-    margin-bottom: 1rem;
-    font-size: 2rem;
-}
-
-.compatibility-description {
-    color: #666;
-    font-size: 1.1rem;
-    line-height: 1.6;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.compatibility-table-container {
-    overflow-x: auto;
-    margin: 2rem 0;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.compatibility-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-    font-size: 0.9rem;
-}
-
-.compatibility-table thead {
-    background: linear-gradient(135deg, #e74c3c, #c0392b);
-    color: white;
-}
-
-.compatibility-table th {
-    padding: 1rem 0.75rem;
-    text-align: left;
-    font-weight: 600;
-    font-size: 0.95rem;
-    border-right: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.compatibility-table th:last-child {
-    border-right: none;
-}
-
-.compatibility-table tbody tr {
-    border-bottom: 1px solid #eee;
-    transition: background-color 0.3s ease;
-}
-
-.compatibility-table tbody tr:hover {
-    background-color: #f8f9fa;
-}
-
-.compatibility-table tbody tr:nth-child(even) {
-    background-color: #fafafa;
-}
-
-.compatibility-table tbody tr:nth-child(even):hover {
-    background-color: #f0f0f0;
-}
-
-.compatibility-table td {
-    padding: 1rem 0.75rem;
-    vertical-align: top;
-    border-right: 1px solid #eee;
-}
-
-.compatibility-table td:last-child {
-    border-right: none;
-}
-
-.blood-type-cell {
-    min-width: 120px;
-}
-
-.blood-type-info {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.blood-type-emoji {
-    font-size: 1.5rem;
-}
-
-.blood-type-name {
-    font-weight: 600;
-    color: #2c3e50;
-    font-size: 1rem;
-}
-
-.population-cell {
-    text-align: center;
-    font-weight: 600;
-    color: #e74c3c;
-    min-width: 80px;
-}
-
-.compatibility-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.25rem;
-}
-
-.compat-tag {
-    display: inline-block;
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-align: center;
-    min-width: 35px;
-}
-
-.compat-tag.receive {
-    background: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
-}
-
-.compat-tag.donate {
-    background: #cce5ff;
-    color: #004085;
-    border: 1px solid #b3d7ff;
-}
-
-.antigens-cell,
-.antibodies-cell {
-    font-size: 0.85rem;
-    line-height: 1.4;
-    max-width: 150px;
-}
-
-.compatibility-legend {
-    background: #f8f9fa;
-    padding: 1.5rem;
-    border-radius: 10px;
-    margin: 2rem 0;
-    border-left: 4px solid #e74c3c;
-}
-
-.compatibility-legend h3 {
-    color: #2c3e50;
-    margin-bottom: 1rem;
-    font-size: 1.2rem;
-}
-
-.legend-items {
-    display: flex;
-    gap: 2rem;
-    flex-wrap: wrap;
-}
-
-.legend-item {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.legend-color {
-    width: 20px;
-    height: 20px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-}
-
-.legend-color.receive {
-    background: #d4edda;
-    border-color: #c3e6cb;
-}
-
-.legend-color.donate {
-    background: #cce5ff;
-    border-color: #b3d7ff;
-}
-
-.compatibility-notes {
-    background: #fff3cd;
-    border: 1px solid #ffeaa7;
-    border-radius: 10px;
-    padding: 1.5rem;
-    margin: 2rem 0;
-}
-
-.compatibility-notes h3 {
-    color: #856404;
-    margin-bottom: 1rem;
-    font-size: 1.2rem;
-}
-
-.compatibility-notes ul {
-    margin: 0;
-    padding-left: 1.5rem;
-}
-
-.compatibility-notes li {
-    color: #856404;
-    margin-bottom: 0.5rem;
-    line-height: 1.5;
-}
-
-.compatibility-notes li:last-child {
-    margin-bottom: 0;
-}
-
-/* Responsive Compatibility Table */
-@media (max-width: 768px) {
-    .compatibility-table {
-        font-size: 0.8rem;
-    }
-    
-    .compatibility-table th,
-    .compatibility-table td {
-        padding: 0.75rem 0.5rem;
-    }
-    
-    .compatibility-table th:first-child,
-    .compatibility-table td:first-child {
-        position: sticky;
-        left: 0;
-        background: white;
-        z-index: 1;
-    }
-    
-    .compatibility-table thead th:first-child {
-        background: linear-gradient(135deg, #e74c3c, #c0392b);
-    }
-    
-    .compatibility-table tbody tr:nth-child(even) td:first-child {
-        background: #fafafa;
-    }
-    
-    .compatibility-table tbody tr:hover td:first-child {
-        background: #f8f9fa;
-    }
-    
-    .legend-items {
-        flex-direction: column;
-        gap: 1rem;
-    }
-    
-    .compat-tag {
-        font-size: 0.75rem;
-        padding: 0.2rem 0.4rem;
-        min-width: 30px;
-    }
-}
-
-@media (max-width: 480px) {
-    .compatibility-reference {
-        padding: 1rem;
-    }
-    
-    .compatibility-table {
-        font-size: 0.75rem;
-    }
-    
-    .compatibility-table th,
-    .compatibility-table td {
-        padding: 0.5rem 0.25rem;
-    }
-    
-    .blood-type-info {
-        flex-direction: column;
-        gap: 0.25rem;
-        text-align: center;
-    }
-    
-    .blood-type-emoji {
-        font-size: 1.2rem;
-    }
-}
-
-/* Responsive Blood Type Results */
-@media (max-width: 768px) {
-    .blood-type-details {
-        grid-template-columns: 1fr;
-    }
-    
-    .scores-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .blood-type-name {
-        font-size: 2rem;
-    }
-    
-    .blood-type-icon {
-        font-size: 3rem;
-    }
+/* Hidden class for JavaScript */
+.hidden {
+    display: none !important;
 }

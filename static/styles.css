@@ -358,8 +358,10 @@ main {
 
 .quiz-types {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .quiz-type-card {
@@ -808,23 +810,288 @@ footer {
     backdrop-filter: blur(10px);
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
+/* Responsive Design - Mobile First */
+@media (max-width: 480px) {
+    .container {
+        padding: 0.5rem;
+    }
+    
     .main-title {
-        font-size: 2.5rem;
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .dashboard-header {
+        padding: 1.5rem 1rem;
+        text-align: center;
     }
     
     .dashboard-stats {
+        justify-content: center;
+        margin-top: 1rem;
         flex-direction: column;
         align-items: center;
     }
     
+    .stat-card {
+        padding: 1rem;
+        min-width: 120px;
+    }
+    
+    .stat-number {
+        font-size: 1.5rem;
+    }
+    
     .nav-menu ul {
         flex-direction: column;
+        gap: 0.25rem;
+        padding: 0.5rem;
+    }
+    
+    .nav-menu a {
+        padding: 0.75rem 1rem;
+        text-align: center;
+        font-size: 0.9rem;
+        border-radius: 8px;
+    }
+    
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .dashboard-card {
+        padding: 1rem;
+    }
+    
+    .quick-actions {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .action-btn {
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .quiz-selection {
+        padding: 1rem;
+    }
+    
+    .quiz-types {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        max-width: 100%;
+    }
+    
+    .quiz-type-card {
+        padding: 1.5rem 1rem;
+    }
+    
+    .quiz-type-card h4 {
+        font-size: 1.1rem;
+    }
+    
+    .quiz-type-card p {
+        font-size: 0.9rem;
+    }
+    
+    .quiz-header {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+    
+    .quiz-title h3 {
+        font-size: 1.2rem;
+    }
+    
+    .quiz-progress {
+        width: 100%;
+        margin-right: 0;
+    }
+    
+    .progress-text {
+        font-size: 0.8rem;
+    }
+    
+    .quiz-question {
+        padding: 1rem;
+    }
+    
+    .quiz-question h3 {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .quiz-options {
+        gap: 0.75rem;
+    }
+    
+    .quiz-option {
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .quiz-controls {
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 1rem;
+    }
+    
+    .btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+        width: 100%;
     }
     
     .form-row {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .form-group {
+        width: 100%;
+    }
+    
+    .form-group input,
+    .form-group select {
+        padding: 0.75rem;
+        font-size: 1rem;
+    }
+    
+    .compatibility-table-container {
+        overflow-x: auto;
+        margin: 0 -1rem;
+        padding: 0 1rem;
+    }
+    
+    .compatibility-table {
+        font-size: 0.8rem;
+        min-width: 600px;
+    }
+    
+    .compatibility-table th,
+    .compatibility-table td {
+        padding: 0.5rem 0.25rem;
+    }
+    
+    .blood-type-name {
+        font-size: 0.9rem;
+    }
+    
+    .compat-tag {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.4rem;
+        margin: 0.1rem;
+    }
+    
+    .compatibility-notes ul {
+        padding-left: 1rem;
+    }
+    
+    .compatibility-notes li {
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .analytics-grid {
         grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .analytics-card {
+        padding: 1rem;
+    }
+    
+    .chart-container {
+        height: 200px;
+    }
+    
+    .demographics {
+        gap: 0.75rem;
+    }
+    
+    .demo-item {
+        font-size: 0.9rem;
+    }
+    
+    .search-section {
+        padding: 1rem;
+    }
+    
+    .search-section .form-group {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .search-section input {
+        width: 100%;
+    }
+    
+    .search-section button {
+        width: 100%;
+    }
+    
+    .results-display {
+        padding: 1rem;
+    }
+    
+    .welcome-message h3 {
+        font-size: 1.2rem;
+    }
+    
+    .welcome-message p {
+        font-size: 0.9rem;
+    }
+    
+    .activity-list {
+        gap: 0.75rem;
+    }
+    
+    .activity-item {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+    }
+    
+    .quiz-stats {
+        gap: 0.75rem;
+    }
+    
+    .quiz-stat {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 768px) and (min-width: 481px) {
+    .container {
+        padding: 1rem;
+    }
+    
+    .main-title {
+        font-size: 2.5rem;
+    }
+    
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .nav-menu ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    
+    .quiz-types {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        max-width: 600px;
     }
     
     .quiz-header {
@@ -832,36 +1099,81 @@ footer {
         gap: 1rem;
     }
     
-    .quiz-progress {
-        margin-right: 0;
+    .quiz-controls {
+        flex-wrap: wrap;
+        gap: 0.75rem;
     }
     
-    .quiz-controls {
+    .btn {
+        flex: 1;
+        min-width: 120px;
+    }
+    
+    .form-row {
         flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .compatibility-table-container {
+        overflow-x: auto;
+    }
+    
+    .compatibility-table {
+        min-width: 700px;
     }
     
     .analytics-grid {
         grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
 }
 
-@media (max-width: 480px) {
-    .main-title {
-        font-size: 2rem;
+@media (max-width: 1024px) and (min-width: 769px) {
+    .container {
+        padding: 1.5rem;
     }
     
-    .subtitle {
-        font-size: 1rem;
+    .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
     }
     
-    .dashboard-card {
-        padding: 1rem;
+    .quiz-types {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+        max-width: 800px;
     }
     
-    .quiz-container {
-        padding: 1rem;
+    .analytics-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+    
+    .form-row {
+        gap: 1.5rem;
     }
 }
+
+@media (min-width: 1025px) {
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .dashboard-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .quiz-types {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 800px;
+    }
+    
+    .analytics-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
 
 /* Loading Animation */
 .loading {

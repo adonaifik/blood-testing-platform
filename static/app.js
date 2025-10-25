@@ -744,10 +744,10 @@ function calculateBloodType() {
             console.log(`Question ${index + 1} weights:`, weights);
             
             if (weights) {
-                scores.A += weights.A;
-                scores.B += weights.B;
-                scores.AB += weights.AB;
-                scores.O += weights.O;
+            scores.A += weights.A;
+            scores.B += weights.B;
+            scores.AB += weights.AB;
+            scores.O += weights.O;
             }
         }
     });
